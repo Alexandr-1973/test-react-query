@@ -1,12 +1,13 @@
 import css from "./NoteList.module.css";
 
-import type { Note } from "../../types/note";
+import type { NoteResponse } from "../../types/note";
 
 interface NotesProps{
-  notes:Note[]
+  notes:NoteResponse[];
+  onDelete:(id:number)=>void;
 }
 
-export default function NoteList({notes}:NotesProps) {
+export default function NoteList({notes, onDelete}:NotesProps) {
 
   console.log(notes);
   
@@ -24,7 +25,7 @@ export default function NoteList({notes}:NotesProps) {
         <p className={css.content}>{note.content}</p>
         <div className={css.footer}>
           <span className={css.tag}>{note.tag}</span>
-          <button className={css.button}>Delete</button>
+          <button className={css.button} onClick={()=>onDelete(note.id)}>Delete</button>
         </div>
       </li>
         )

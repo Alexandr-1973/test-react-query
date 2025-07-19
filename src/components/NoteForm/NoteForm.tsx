@@ -1,25 +1,13 @@
 import css from "./NoteForm.module.css";
-import {
-  
-  Field,
-  Form,
-  Formik,
-  type FormikHelpers,
-} from "formik";
+import { Field, Form, Formik, type FormikHelpers } from "formik";
 import type { Note } from "../../types/note";
-import type { ModalProps } from "../../types/modal";
 
-// interface OrderFormValues {
-//   title: string;
-//   content: string;
-//   tag: "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
-// }
+interface NoteFormProps {
+  onClose: () => void;
+  onSubmitNote: (note: Note) => void;
+}
 
-
-
-export default function NoteForm({onClose}:ModalProps) {
-  
-
+export default function NoteForm({ onClose, onSubmitNote }: NoteFormProps) {
   const initialValues: Note = {
     title: "",
     content: "",
@@ -27,6 +15,7 @@ export default function NoteForm({onClose}:ModalProps) {
   };
 
   const handleSubmit = (values: Note, actions: FormikHelpers<Note>) => {
+    onSubmitNote(values);
     console.log("Order data:", values);
     actions.resetForm();
   };
@@ -68,7 +57,7 @@ export default function NoteForm({onClose}:ModalProps) {
           <button
             type="button"
             className={css.cancelButton}
-            onClick={()=>onClose()}
+            onClick={() => onClose()}
           >
             Cancel
           </button>
