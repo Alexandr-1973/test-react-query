@@ -83,13 +83,13 @@ function App() {
         </button>
         {isModalOpen && (
           <Modal onClose={closeModal}>
-            <NoteForm onClose={closeModal} onSubmitNote={onSubmitNote} />
+            <NoteForm onClose={closeModal} onSubmitNote={onSubmitNote} setPage={setPage}/>
           </Modal>
         )}
       </header>
-      {(isLoading || addNoteMutation.isPending || deleteNoteMutation.isPending)&&<span>Loading...</span>}
+      {isLoading&&<span>Loading...</span>}
       {isError&&<span>Error: {error.message}</span>}
-      {isSuccess&&data && <NoteList notes={data.notes} onDelete={onDelete} />}
+      {isSuccess&&data && <NoteList notes={data.notes} onDelete={onDelete} setPage={setPage}/>}
     </div>
   );
 }

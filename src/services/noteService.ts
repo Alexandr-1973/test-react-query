@@ -38,21 +38,15 @@ export async function fetchNotes(query: string, page: number) {
     ...auth,
   });
 
-  console.log(response.data);
-
   return response.data;
 }
 
 export async function createNote(note: Note) {
   const response = await axios.post<NoteResponse>("", note, auth);
-
-  console.log(response.data);
-
   return response.data;
 }
 
 export async function deleteNote(id: number) {
   const response = await axios.delete<deleteResponse>(`${id}`, auth);
-
   return response;
 }

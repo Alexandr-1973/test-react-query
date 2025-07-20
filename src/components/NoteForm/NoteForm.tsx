@@ -1,27 +1,32 @@
 import css from "./NoteForm.module.css";
 import { Field, Form, Formik, ErrorMessage, type FormikHelpers } from "formik";
 import type { Note } from "../../types/note";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 
 interface NoteFormProps {
   onClose: () => void;
   onSubmitNote: (note: Note) => void;
+  setPage: (page: number) => void;
 }
 
- const NoteFormSchema = Yup.object().shape({
-   title: Yup.string()
-     .min(3, 'Too Short!')
-     .max(50, 'Too Long!')
-     .required('Required'),
-   content: Yup.string()
-     
-     .max(500, 'Too Long!'),
-     
-   tag: Yup.string()
-    .oneOf(["Todo", "Work", "Personal", "Meeting", "Shopping"]).required('Required'),
- });
+const NoteFormSchema = Yup.object().shape({
+  title: Yup.string()
+    .min(3, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  content: Yup.string()
+  .max(500, "Too Long!"),
 
-export default function NoteForm({ onClose, onSubmitNote }: NoteFormProps) {
+  tag: Yup.string()
+    .oneOf(["Todo", "Work", "Personal", "Meeting", "Shopping"])
+    .required("Required"),
+});
+
+export default function NoteForm({
+  onClose,
+  onSubmitNote,
+  setPage,
+}: NoteFormProps) {
   const initialValues: Note = {
     title: "",
     content: "",
@@ -30,12 +35,16 @@ export default function NoteForm({ onClose, onSubmitNote }: NoteFormProps) {
 
   const handleSubmit = (values: Note, actions: FormikHelpers<Note>) => {
     onSubmitNote(values);
-    console.log("Order data:", values);
     actions.resetForm();
+    setPage(1);
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={NoteFormSchema}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={NoteFormSchema}
+    >
       <Form className={css.form}>
         <div className={css.formGroup}>
           <label htmlFor="title">Title</label>
