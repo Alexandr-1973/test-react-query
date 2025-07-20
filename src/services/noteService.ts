@@ -7,7 +7,7 @@ interface GetResponse {
 }
 
 interface deleteResponse {
-  message:string;
+  message: string;
 }
 
 interface Params {
@@ -17,6 +17,12 @@ interface Params {
 
 axios.defaults.baseURL = "https://notehub-public.goit.study/api/notes";
 const token = import.meta.env.VITE_NOTEHUB_TOKEN;
+
+const auth = {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
 
 export async function fetchNotes(query: string, page: number) {
   const params: Params = {
@@ -29,10 +35,7 @@ export async function fetchNotes(query: string, page: number) {
 
   const response = await axios.get<GetResponse>("?perPage=12", {
     params,
-
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    ...auth,
   });
 
   console.log(response.data);
@@ -41,23 +44,15 @@ export async function fetchNotes(query: string, page: number) {
 }
 
 export async function createNote(note: Note) {
-  const response=await axios.post<NoteResponse>("", note, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await axios.post<NoteResponse>("", note, auth);
 
   console.log(response.data);
 
   return response.data;
 }
 
-export async function deleteNote(id:number){
+export async function deleteNote(id: number) {
+  const response = await axios.delete<deleteResponse>(`${id}`, auth);
 
-  const response = await axios.delete<deleteResponse>(`${id}`, {headers: {
-      Authorization: `Bearer ${token}`,
-    }});
-
-    return response;
-
+  return response;
 }

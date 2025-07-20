@@ -22,7 +22,7 @@ function App() {
 
   const queryClient = useQueryClient();
 
-  const { data } = useQuery({
+  const { isLoading, isError, error,data, isSuccess } = useQuery({
     queryKey: ["notes", query, page],
     queryFn: () => fetchNotes(query, page),
     placeholderData: keepPreviousData,
@@ -87,7 +87,9 @@ function App() {
           </Modal>
         )}
       </header>
-      {data && <NoteList notes={data.notes} onDelete={onDelete} />}
+      {(isLoading || addNoteMutation.isPending || deleteNoteMutation.isPending)&&<span>Loading...</span>}
+      {isError&&<span>Error: {error.message}</span>}
+      {isSuccess&&data && <NoteList notes={data.notes} onDelete={onDelete} />}
     </div>
   );
 }

@@ -38,7 +38,6 @@ export default function Modal({ children, onClose }: Modal) {
     >
       <div className={css.modal}>
         {children}
-        {/* <NoteForm onClose={onClose}/> */}
       </div>
     </div>,
     document.body
